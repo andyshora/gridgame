@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/js/jquery-1.9.1.min.js"></script>
+	<script src="/js/underscore-min.js"></script>
+	<script src="/js/json2.js"></script>
+	<script src="/js/backbone-min.js"></script>
+	<script src="/js/modernizr.2.6.2.custom.js"></script>
+	<script src="/bootstrap/js/bootstrap.js"></script>
+	<script src="/js/buzz.js"></script>
+	<script src="/js/client.js"></script>
+	<link href="/css/all.css" rel="stylesheet" />
+	<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+<div id="body_wrap">
+	<div class="row-fluid">
+        <div class="span8">
+			<div id="squares_wrap"></div>
+			<div id="squares_overlay_wrap">
+				<div id="squares_overlay">
+					<h2 class="no_go">Get Ready</h2>
+					<h2 class="go">Go!</h2>
+					<p>Hint: you get 3 extra points for the cupcakes! <img src="/img/cupcake.png" /></p>
+				</div>
+			</div>
+		</div>
+		<div class="span4">
+			<div id="countdown_wrap">
+				<h1 id="countdown">30</h1>
+				<p>seconds remaining</p>
+			</div>
+			<ul id="users_list">
+				<h3>Who's playing?</h3>
+			</ul>
+
+			<div id="ref_controls">
+				<h3>Referee Controls</h3>
+				<label for="game_timer">Game Duration </label><input id="game_timer" type="text" value="30" /><br>
+				<button id="start_game" class="btn btn-success">Start Game!</button>
+				<button id="stop_game" class="btn btn-danger" disabled>Stop</button>
+			</div>
+		</div>
+	</div>
+
+
+
+		<!-- modal content -->
+          <div id="welcome_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">Welcome to the game!</h3>
+            </div>
+            <div class="modal-body">
+
+            	<div class="row-fluid">
+            		<div class="span6">
+            			<h4>Your Username</h4>
+			              <p>(No injection attempts please)</p>
+			              <input type="text" id="username" placeholder="username" />
+            		</div>
+            		<div class="span6">
+            			<h4>Select your color!</h4>
+			              <p>This color will be used to represent tiles you own in the game.</p>
+			              
+			              <div id="choose_color_wrap">
+							<div class="choose_color choose_blue" data-class="colorBlue"></div>
+							<div class="choose_color choose_red" data-class="colorRed"></div>
+							<div class="choose_color choose_green" data-class="colorGreen"></div>
+							<div class="choose_color choose_john" data-class="colorJohn"></div>
+							<div class="choose_color choose_nick" data-class="colorNick"></div>
+						</div>
+
+            		</div>
+            	</div>
+              
+
+            <div class="modal-footer">
+              <button class="btn btn-inverse" data-dismiss="modal" id="ref_button">Hey, I'm just the ref</button>
+              <button class="btn btn-primary" data-dismiss="modal" id="ready_button" disabled>I'm ready to play!</button>
+            </div>
+          </div>
+
+      </div>
+
+
+		<div id="winner_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">You win!</h3>
+            </div>
+            <div class="modal-body">
+
+            	<p>Congratulations, you've joined an elite group of players. If you didn't hack the shit out of my interface then maximum respect!</p>
+            	<p>If you'd like to play again, please refresh the page!</p>
+              
+
+            <div class="modal-footer">
+              <button class="btn btn-primary refresh_page" data-dismiss="modal" id="refresh_button">Play again</button>
+            </div>
+          </div>
+
+      </div>
+
+      <div id="loser_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">You lose!</h3>
+            </div>
+            <div class="modal-body">
+
+            	<p>Next time, try and go for the cupcakes, they are worth bare points!</p>
+            	<p>If you'd like to play again, please refresh the page!</p>
+              
+
+            <div class="modal-footer">
+              <button class="btn btn-primary refresh_page" data-dismiss="modal" id="refresh_button">Play again</button>
+            </div>
+          </div>
+
+      </div>
+
+      <!-- modal content -->
+
+		
+
+      <button id="disconnect" class="btn">Disconnect</button>
+	</div>
+</body>
+</html>
+<script type="text/template" id="square_template">
+<div id="<%= id %>" class="square"></div>
+</script>
+
+
+		<script type="text/template" id="user_template">
+		<li id="user_<%= username %>" class="user">
+			<strong><%= username %></strong>: <span class="count"><%= count %></span> <span class="bonus">+ <%= bonus %> bonus pts</span>
+		</li>
+		</script>
+
+
+
+
